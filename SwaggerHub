@@ -1,0 +1,106 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/IMORALESC/PAI/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /profile:
+    put:
+      tags:
+        - developers
+      summary: Informacion Perfil Usuario
+      operationId:  Informacion Perfil Usuario
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+     
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        
+
+          
+      responses:
+        '200':
+          description: Operacion Correcta 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+        '400':
+          description: Muestra un errror
+        '401':
+          description: Muestra un error
+          
+          
+          
+    post:
+      tags:
+        - paswword
+      summary: Cambiar contraseña
+      operationId: CambiarContraseña
+      description: Permite cambiar la contraseñ al usuario
+      responses:
+        '201':
+          description: okey
+        '400':
+          description: 'mala respuesta'
+        '401':
+          description: 'token de sesion no existe'
+        '403':
+          description: 'contraseña incorrecta'          
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paswword'
+        description: 'Contraseña cambiada'
+        
+        
+        
+components:
+  
+  schemas:    
+    Profile:
+      type: object
+      
+      
+      properties:
+        Nombre de Usuario:
+          type: string
+
+        Descripcion:
+          type: string
+
+        Numero de telefono:
+          type: integer
+          format: number
+          
+        Usuario:
+          type: string
+
+        Correo Electronico:
+          type: string
+          format:  email        
+
+        FotoPeril:
+          type: string
