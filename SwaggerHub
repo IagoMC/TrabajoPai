@@ -24,9 +24,15 @@ paths:
         - developers
       summary: Informacion Perfil Usuario
       operationId:  Informacion Perfil Usuario
-      description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the system
+      description: Editar perfil usuario
+     
+      parameters:
+        - in: header
+          name: SessionToken
+          description: token de sesion
+          required: true
+          schema:
+            type: string
      
       requestBody:
         required: true
@@ -40,30 +46,34 @@ paths:
       responses:
         '200':
           description: Operacion Correcta 
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InventoryItem'
+          
         '400':
-          description: Muestra un errror
+          description: Muestra un errror - alguno de los parámetros es incorrecto o no procede
         '401':
-          description: Muestra un error
-          
-          
-          
+          description: Muestra un error - token de sesión no existe
+    
+
+  /password:
     post:
       tags:
-        - paswword
+        - developers
       summary: Cambiar contraseña
       operationId: CambiarContraseña
       description: Permite cambiar la contraseñ al usuario
+      
+      parameters:
+        - in: header
+          name: SessionToken
+          description: token de sesion
+          required: true
+          schema:
+            type: string
+     
       responses:
         '201':
           description: okey
         '400':
-          description: 'mala respuesta'
+          description: 'mala peticion'
         '401':
           description: 'token de sesion no existe'
         '403':
@@ -72,35 +82,217 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/paswword'
-        description: 'Contraseña cambiada'
+              $ref: '#/components/schemas/Password'
+
         
-        
-        
+   
+  /photographers:
+    get:
+      tags:
+        - developers
+      description: devuelve los fotografos filtrados
+      operationId: getphotographers
+      parameters:
+   
+          
+        - in: query
+          name: query
+          description: nombre del photografo, descripcion y ciudad case-insensitive
+          required: false
+          schema:
+            type: string
+          
+     
+         
+          
+        - in: query
+          name: rating
+          description: refencia al rating
+          required: false
+          schema:
+            type: integer      
+            
+        - in: query
+          name: size
+          description: tamaño de la pagina
+          required: false
+          schema:
+            type: integer     
+            
+        - in: query
+          name: rated_under
+          description: referencia a la paginacion
+          required: false
+          schema:
+            type: integer     
+
+                        
+      responses:
+        '200':
+          description: Operacion Correcta 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Photographers_And_Agencies'   
+   
+   
+  /agencias:
+    get:
+      tags:
+        - developers
+      description: devuelve las agencias filtradas
+      operationId: getagencies
+      parameters:
+          
+        - in: query
+          name: query
+          description: nombre del photografo, descripcion y ciudad case-insensitive
+          required: false
+          schema:
+            type: string
+          
+     
+         
+          
+        - in: query
+          name: rating
+          description: refencia al rating
+          required: false
+          schema:
+            type: integer      
+            
+        - in: query
+          name: size
+          description: referencia a la size
+          required: false
+          schema:
+            type: integer     
+            
+        - in: query
+          name: rated_under
+          description: referencia al ratio
+          required: false
+          schema:
+            type: integer     
+
+      
+      responses:
+        '200':
+          description: Operacion Correcta 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Photographers_And_Agencies'   
+   
+          
 components:
-  
   schemas:    
     Profile:
       type: object
       
       
       properties:
-        Nombre de Usuario:
+        email:
+          type: string
+          format:  email
+
+        name:
           type: string
 
-        Descripcion:
+        surname:
           type: string
-
-        Numero de telefono:
-          type: integer
-          format: number
           
-        Usuario:
+        username:
+          type: string          
+          
+        phone:
           type: string
 
-        Correo Electronico:
-          type: string
-          format:  email        
 
-        FotoPeril:
+        city:
+          type: string      
+          
+          
+        description:
           type: string
+          
+        instagram:
+          type: string
+          
+        twitter:
+          type: string
+          
+        tiktok:
+          type: string          
+   
+        profilePicture:
+          type: string     
+          
+    Password:
+      type: object   
+      required:
+      - old_password
+      - new_password
+      - new_password_confirm
+      
+      properties:
+        old_password:
+          type: string
+          format: password
+          
+          
+        new_password:
+          type: string
+          format: password          
+      
+        new_password_confirm:
+          type: string
+          format: password
+          
+
+    Photographers_And_Agencies:
+      type: object   
+      required:
+      - id
+      - name
+      - description
+      - phone
+      - instagram
+      - twitter
+      - tiktok
+      - photo
+      - averageRaiting
+      
+      properties:
+        id:
+          type: integer
+        
+        name:
+          type: string
+        
+        description:
+          type: string
+        
+        phone:
+          type: string
+        
+        instagram:
+          type: string
+        
+        twitter:
+          type: string
+
+        tiktok:
+          type: string
+
+        photo:
+          type: string
+
+        averageRaiting:
+          type: string        
+
+
