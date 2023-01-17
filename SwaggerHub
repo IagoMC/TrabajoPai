@@ -18,6 +18,7 @@ tags:
   - name: developers
     description: Operations available to regular developers
 paths:
+
   /profile:
     put:
       tags:
@@ -188,7 +189,119 @@ paths:
                 items:
                   $ref: '#/components/schemas/Photographers_And_Agencies'   
    
+
+  /Fotografo:
+    get:
+      tags:
+        - developers
+      description: 'Busqueda de un fotografo a traves del buscador'
+      operationId: Busqueda de un fotografo a traves del buscador
+      parameters:
+        - in: query
+          name: id
+          description: 'Nos proporciona los componentes del fotografo a traves del id'
+          required: true
+          schema:
+            type: string
+        
+      responses:
+        '201':
+          description: okey
+        '404':
+          description: 'No encontrado'
+          $ref: '#/components/schemas/Photographers_And_Agencies'
           
+  /agencia:
+    get:
+      tags:
+        - developers
+      description: 'Busqueda de una agencia a traves del buscador'
+      operationId: Busqueda de una agencia a traves del buscador
+      parameters:
+        - in: query
+          name: id
+          description: 'Nos proporciona los componentes de la agencia a traves del id'
+          required: true
+          schema:
+            type: string
+        
+      responses:
+        '201':
+          description: okey
+        '404':
+          description: 'No encontrado'
+          $ref: '#/components/schemas/Photographers_And_Agencies'
+          
+  /photographer:
+    post:
+      tags: 
+        - user
+      summary: 'publicar comentario + valoracion a un fotografo'  
+      parameters:
+        - in: query
+          name: Comentario
+          description: 'Comentario que se introduce sobre el fotografo'
+          required: true
+          schema:
+            type: string
+        
+        - in: query
+          name: Valoracion
+          description: 'Valoración que se introduce sobre el fotografo'
+          required: true
+          schema:
+            type: string
+        
+      responses:
+        
+        '201':
+          description: Creado correctamente
+        '400':
+          description: Bad request
+        '401':
+          description: No autorizado
+        '404':
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comments'
+                
+  /agencies:
+    post:
+      tags: 
+        - user
+      summary: 'publicar comentario + valoracion a una agencia'  
+      parameters:
+        - in: query
+          name: Comentario
+          description: 'Comentario que se introduce sobre la agencia'
+          required: true
+          schema:
+            type: string
+        
+        - in: query
+          name: Valoracion
+          description: 'Valoración que se introduce sobre la agencia'
+          required: true
+          schema:
+            type: string
+        
+      responses:
+        
+        '201':
+          description: Creado correctamente
+        '400':
+          description: Bad request
+        '401':
+          description: No autorizado
+        '404':
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comments'
+                
 components:
   schemas:    
     Profile:
@@ -293,6 +406,17 @@ components:
           type: string
 
         averageRaiting:
-          type: string        
+          type: string
 
-
+    Comments:
+      type: object   
+      required:
+      - averageRaiting
+      - newComment
+      
+      properties:
+        averageRaiting:
+          type: string
+          
+        newComment:
+          type: string
